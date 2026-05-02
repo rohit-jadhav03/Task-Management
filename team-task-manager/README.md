@@ -3,85 +3,54 @@
 A full-stack collaborative project & task management app with role-based access control.
 
 ## Features
-
 - **Authentication** — JWT-based signup/login
-- **Projects** — Create, manage, and delete projects
-- **Team Management** — Invite members with Admin/Member roles
-- **Tasks** — Create tasks with status, priority, due date, and assignee
-- **Kanban Board** — Visual To Do / In Progress / Done columns
-- **Dashboard** — Personal task overview and project stats
+- **Projects** — Create, manage, and delete projects[cite: 1]
+- **Team Management** — Invite members with Admin/Member roles[cite: 1]
+- **Tasks** — Create tasks with status, priority, due date, and assignee[cite: 1]
+- **Kanban Board** — Visual To Do / In Progress / Done columns[cite: 1]
+- **Dashboard** — Personal task overview and project stats[cite: 1]
 
 ## Tech Stack
-
 | Layer | Technology |
 |-------|-----------|
-| Frontend | React 18, React Router v6 |
-| Backend | Node.js, Express |
-| Database | PostgreSQL |
-| Auth | JWT + bcrypt |
-| Deployment | Railway |
+| Frontend | React 18, React Router v6[cite: 1]
+| Backend | Node.js, Express[cite: 1]
+| Database | PostgreSQL (Hosted on Render)[cite: 1]
+| Auth | JWT + bcrypt[cite: 1]
+| Deployment | Render[cite: 1]
+
+---
+
+## Live Links
+- **Live Application**: https://team-task-manager-2-vtw6.onrender.com
+- **GitHub Repository**: https://github.com/rudrakulkarni04/team-task-manager
 
 ---
 
 ## Local Development
-
 ### Prerequisites
-- Node.js 18+
-- PostgreSQL
+- Node.js 18+[cite: 1]
+- PostgreSQL[cite: 1]
 
 ### Backend Setup
-
-```bash
-cd backend
-npm install
-cp .env.example .env
-# Edit .env with your DATABASE_URL and JWT_SECRET
-npm run dev
-```
+1. cd backend
+2. npm install
+3. cp .env.example .env
+4. npm run dev[cite: 1]
 
 ### Frontend Setup
-
-```bash
-cd frontend
-npm install
-cp .env.example .env
-# Edit .env with REACT_APP_API_URL (e.g. http://localhost:5000/api)
-npm start
-```
+1. cd frontend
+2. npm install
+3. cp .env.example .env
+4. npm start[cite: 1]
 
 ---
 
-## Deploying to Railway
-
-### Step 1: Create Railway Account
-Go to [railway.app](https://railway.app) and sign up.
-
-### Step 2: Deploy Backend
-
-1. Click **New Project → Deploy from GitHub Repo**
-2. Select the `backend` folder (or push backend separately)
-3. Railway auto-detects Node.js
-4. Add environment variables:
-   - `DATABASE_URL` — Railway provides this when you add a PostgreSQL service
-   - `JWT_SECRET` — any long random string
-   - `NODE_ENV` — `production`
-   - `FRONTEND_URL` — your frontend Railway URL (set after frontend deploy)
-
-### Step 3: Add PostgreSQL
-
-In your Railway project, click **+ New → Database → PostgreSQL**.  
-Railway auto-injects `DATABASE_URL` to your backend service.
-
-### Step 4: Deploy Frontend
-
-1. Add another service in Railway from the `frontend` folder
-2. Add environment variable:
-   - `REACT_APP_API_URL` — your backend Railway URL + `/api`
-3. Railway builds and deploys automatically
-
-### Step 5: Update CORS
-
-Go back to backend service, set `FRONTEND_URL` to your frontend Railway URL.
+## Deployment Information
+This project is deployed using **Render**.
+- **Backend**: Deployed as a Web Service connected to a Managed PostgreSQL instance.
+- **Frontend**: Deployed as a Static Site for optimized production performance.
+- **Environment Management**: Connected via REACT_APP_API_URL environment variables.
 
 ---
 
@@ -90,57 +59,31 @@ Go back to backend service, set `FRONTEND_URL` to your frontend Railway URL.
 ### Auth
 | Method | Route | Access |
 |--------|-------|--------|
-| POST | `/api/auth/register` | Public |
-| POST | `/api/auth/login` | Public |
-| GET | `/api/auth/me` | Private |
+| POST | /api/auth/register | Public[cite: 1]
+| POST | /api/auth/login | Public[cite: 1]
+| GET | /api/auth/me | Private[cite: 1]
 
 ### Projects
 | Method | Route | Access |
 |--------|-------|--------|
-| GET | `/api/projects` | Private |
-| POST | `/api/projects` | Private |
-| GET | `/api/projects/:id` | Member+ |
-| PUT | `/api/projects/:id` | Admin |
-| DELETE | `/api/projects/:id` | Owner |
-| GET | `/api/projects/:id/members` | Member+ |
-| POST | `/api/projects/:id/members` | Admin |
-| DELETE | `/api/projects/:id/members/:userId` | Admin |
+| GET | /api/projects | Private[cite: 1]
+| POST | /api/projects | Private[cite: 1]
+| PUT | /api/projects/:id | Admin[cite: 1]
+| DELETE | /api/projects/:id | Owner[cite: 1]
 
 ### Tasks
 | Method | Route | Access |
 |--------|-------|--------|
-| GET | `/api/projects/:id/tasks` | Member+ |
-| POST | `/api/projects/:id/tasks` | Member+ |
-| GET | `/api/projects/:id/tasks/:taskId` | Member+ |
-| PUT | `/api/projects/:id/tasks/:taskId` | Member+ |
-| DELETE | `/api/projects/:id/tasks/:taskId` | Admin |
-
-### Dashboard
-| Method | Route | Access |
-|--------|-------|--------|
-| GET | `/api/dashboard` | Private |
+| GET | /api/projects/:id/tasks | Member+[cite: 1]
+| POST | /api/projects/:id/tasks | Member+[cite: 1]
+| PUT | /api/projects/:id/tasks/:taskId | Member+[cite: 1]
 
 ---
 
-## Role-Based Access Control
-
+## Role-Based Access Control (RBAC)
 | Action | Member | Admin |
 |--------|--------|-------|
-| View project | ✓ | ✓ |
-| Create tasks | ✓ | ✓ |
-| Edit tasks | ✓ | ✓ |
-| Delete tasks | ✗ | ✓ |
-| Edit project | ✗ | ✓ |
-| Manage members | ✗ | ✓ |
-| Delete project | ✗ | Owner only |
-
----
-
-## Database Schema
-
-```sql
-users (id, name, email, password, created_at)
-projects (id, name, description, owner_id, created_at)
-project_members (id, project_id, user_id, role, joined_at)
-tasks (id, title, description, status, priority, due_date, project_id, assignee_id, created_by, created_at, updated_at)
-```
+| View project | ✓ | ✓[cite: 1]
+| Create tasks | ✓ | ✓[cite: 1]
+| Delete tasks | ✗ | ✓[cite: 1]
+| Delete project | ✗ | Owner only[cite: 1]
